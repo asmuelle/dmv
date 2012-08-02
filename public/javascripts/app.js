@@ -16,7 +16,7 @@ $(function() {
   // Show Photobooth
   DMV.init( "#container", socket );
 
-  $("#take-photo").on( "click", function() {
+  $("#take-photo").live( "click", function() {
     DMV.operator.capture(function( dataURI ) {
       $saved.prepend(
         [

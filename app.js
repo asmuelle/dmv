@@ -1,35 +1,11 @@
 var express = require("express"),
     socket = require("socket.io"),
-    fs = require("fs"),
-    cloudfiles = require("cloudfiles");
+    fs = require("fs");
 
 
-var portInUse, cloudConf, cloud,
+var portInUse,
     app = express.createServer(),
     io = socket.listen( app );
-
-
-if ( process.env.NODE_ENV ) {
-  cloudConf = JSON.parse( fs.readFileSync( __dirname + "/.config", "utf-8" ) );
-
-  cloud = cloudfiles.createClient({
-    auth: {
-      username: cloudConf.username,
-      apiKey: cloudConf.apiKey
-    }
-  });
-
-  cloud.setAuth(function() {
-    // console.log( cloud );
-    console.log( "Authorized Cloud Files" );
-    // cloud.getContainer( "dmv", function( err, container ) {
-    //   container.getFiles(function( err, files ) {
-    //     console.log( files );
-    //   });
-    // });
-  });
-}
-
 
 // Express app Configuration
 app.configure(function() {
@@ -94,46 +70,19 @@ io.sockets.on( "connection", function( client ) {
     // Output regenerated, compressed code
     fs.write( file, buffer, 0, buffer.length, 0, function( err, data ) {
       if ( err == null ) {
-
-        if ( cloud ) {
-          cloud.addFile( cloudConf.container, { remote: filename, local: filepath }, function( err, uploaded ) {
-            if ( uploaded ) {
-              // File has been uploaded
-              console.log( "Uploaded to Cloud Files: " + filename  );
-
-              // Stream new file name to client
-              streamToClient([ filename ]);
-            }
-          });
-        } else {
           streamToClient([ filename ]);
-        }
-
-        // TODO: Delete local copy once index store is in place
       }
     });
   });
 
   client.on( "list:request", streamList );
 
-  // TODO: Refactor all of this code, it stinks.
   function streamList( data ) {
     var id = data.id,
         filepath = "public/saved/";
-
-    if ( cloud ) {
-      // Request Container and Files from Cloud Files
-      cloud.getContainer( cloudConf.container, function( err, container ) {
-        container.getFiles(function( err, files ) {
-          streamFilter( id, files.map(function( data ) { return data.name; }) );
-        });
-      });
-    } else {
-      // Look locally for development
       fs.readdir( filepath, function( err, files ) {
         streamFilter( id, files );
       });
-    }
   }
 
   function streamFilter( id, files ) {
@@ -160,7 +109,7 @@ io.sockets.on( "connection", function( client ) {
 
   function streamToClient( list ) {
     io.sockets.emit( "list:response", {
-      path: cloud ? "http://c309459.r59.cf1.rackcdn.com/" : "/saved/",
+      path: "/saved/",
       files: list
     });
   }

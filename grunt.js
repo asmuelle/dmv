@@ -28,6 +28,7 @@ module.exports = function(grunt) {
     },
     min: {
       'dist/dmv.min.js': ['<banner>', 'dist/dmv.js'],
+      'public/javascripts/app.min.js': ['<banner>', 'public/javascripts/app.js'],
       'public/javascripts/dmv.min.js': ['<banner>', 'public/javascripts/dmv.js']
     },
     test: {

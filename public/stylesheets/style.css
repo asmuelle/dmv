@@ -60,12 +60,6 @@ canvas {
 #saved li img:first {
   padding-left: -1px;
 }
-#take-photo {
-  position: fixed;
-  right: 0px;
-  top: 50px;
-  z-index: 9;
-}
 #view-saved {
   position: fixed;
   top: 0px;

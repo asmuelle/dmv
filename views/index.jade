@@ -3,26 +3,19 @@ div.navbar.navbar-fixed-top
     div.container-fluid
       a.btn.btn-navbar(data-toggle="collapse",data-target=".nav-collapse")
         span.icon-bar
+      a.brand(href="#") Send a Pic 
 
-      a.brand(href="#") DMV
+.container-fluid
+ .row-fluid
+  .span2
+    .well.sidebar-nav(style="margin-top:55px;height:400px;overflow:scroll")
+         ul#saved
 
-      div.nav-collapse
-        ul.nav
-          li
-            a(href="https://github.com/rwldrn/dmv", target="_blank") code@github
-
-
-div#take-photo.span1
-  a.btn.btn-large.btn-danger(href="#")
-    b.icon-camera.icon-white
-
-
-
-div#saved-photo.row.navbar-inner
-  ul#saved
-
-
-#container
+  .span10 
+   #container
+   center
+    a#take-photo.btn.btn-large.btn-danger(href="#")
+     b.icon-camera.icon-white
 
 
 div.container
@@ -35,9 +28,7 @@ div.container
       dd
         a(href="http://dev.opera.com/labs", target="_blank") Opera Labs Camera build
       dd
-        a(href="http://tools.google.com/dlpage/chromesxs", target="_blank") Google Chrome Canary
-        p.
-          and enable MediaStream in chrome://flags
+        a(href="http://tools.google.com/dlpage/chromesxs", target="_blank") Google Chrome 21 
 
     h3
       a(href="http://weblog.bocoup.com/javascript-webrtc-opera-mobile-12/") Find out more
